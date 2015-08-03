@@ -2,7 +2,7 @@
  * Created by alex on 01.08.2015.
  */
 
-var paginator = require("paginator"),
+var paginator = require("paginator-express"),
     _ = require('lodash'),
     express = require('express');
 
