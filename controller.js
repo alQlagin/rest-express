@@ -8,8 +8,13 @@ var paginator = require("paginator-express"),
 
 var router = express.Router();
 
-module.exports = function (model) {
+module.exports = function (model, customActions) {
     var ctrl = new Controller(model);
+
+    _.forOwn(customActions, function (action, name) {
+        ctrl[name] = action;
+    })
+
     return ctrl;
 };
 
@@ -55,7 +60,6 @@ function Controller(model) {
                 }, next)
         }
     };
-
     return controller;
 }
 
