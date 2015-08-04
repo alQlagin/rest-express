@@ -8,8 +8,8 @@ var paginator = require("paginator-express"),
 
 var router = express.Router();
 
-module.exports = function (model, customActions) {
-    var ctrl = new Controller(model);
+module.exports = function (model, customActions, options) {
+    var ctrl = new Controller(model, options);
 
     _.forOwn(customActions, function (action, name) {
         ctrl[name] = action;
@@ -18,9 +18,11 @@ module.exports = function (model, customActions) {
     return ctrl;
 };
 
-function Controller(model) {
+function Controller(model, customOptions) {
+    var options = {};
+    _.assign(options, customOptions);
     var controller = {
-        list: paginator.controller(model.find()),
+        list: paginator.controller(model.find(), options.listFilter),
         create: function (req, res, next) {
             var m = new model(req.body);
 
