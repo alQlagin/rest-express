@@ -1,10 +1,11 @@
 'use strict';
 function RestUrlRule(router, route, ctrl) {
-    router.get('/' + route + '/', ctrl.list);
-    router.post('/' + route + '/', ctrl.create);
-    router.get('/' + route + '/:id', ctrl.read);
-    router.put('/' + route + '/:id', ctrl.update);
-    router.delete('/' + route + '/:id', ctrl.delete);
+    var p = route ? ('/' + route) : '';
+    router.get(p + '/', ctrl.list);
+    router.post(p + '/', ctrl.create);
+    router.get(p + '/:id', ctrl.read);
+    router.put(p + '/:id', ctrl.update);
+    router.delete(p + '/:id', ctrl.delete);
 }
 
 module.exports = RestUrlRule;
