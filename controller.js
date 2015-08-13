@@ -22,7 +22,7 @@ function Controller(model, customOptions) {
     var options = {};
     _.assign(options, customOptions);
     var controller = {
-        list: paginator.controller(model.find(), options.listFilter),
+        list: paginator.controller(model.find().sort({_id: 1}), options.listFilter),
         create: function (req, res, next) {
             var m = new model(req.body);
 
@@ -36,8 +36,13 @@ function Controller(model, customOptions) {
         read: function (req, res, next) {
             load(model, req.params.id || req.query.id)
                 .then(function (result) {
-                    res.status(200);
-                    res.json(result)
+                    if (result) {
+                        res.status(200);
+                        res.json(result)
+                    } else {
+                        res.status(404);
+                        res.end();
+                    }
                 }, next)
         },
         update: function (req, res, next) {
