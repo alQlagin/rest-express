@@ -34,7 +34,7 @@ function Controller(model, customOptions) {
 
         },
         read: function (req, res, next) {
-            load(model, req.params.id || req.query.id)
+            load(model, req.params.id || req.query.id, req.query.populate)
                 .then(function (result) {
                     if (result) {
                         res.status(200);
@@ -52,7 +52,7 @@ function Controller(model, customOptions) {
                     return result.save();
                 }, next)
                 .then(function (result) {
-                    res.status(203);
+                    res.status(200);
                     res.json(result)
                 }, next)
         },
@@ -62,7 +62,7 @@ function Controller(model, customOptions) {
                     return result.remove();
                 }, next)
                 .then(function () {
-                    res.status(203);
+                    res.status(204);
                     res.end();
                 }, next)
         }
@@ -70,8 +70,12 @@ function Controller(model, customOptions) {
     return controller;
 }
 
-function load(model, id) {
-    return model.findOne({
+function load(model, id, populate) {
+    var q = model.findOne({
         _id: id
-    }).exec();
+    })
+    if (populate)
+        q.populate(populate)
+
+    return q.exec();
 }

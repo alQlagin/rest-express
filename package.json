@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "paginator": "git://github.com/alQlagin/paginator-express"
+    "paginator": "git://github.com/alQlagin/paginator-express",
+    "lodash": "^3.10.1",
+    "express": "^4.13.3",
+    "mongoose": "^4.1.2"
   }
 }
