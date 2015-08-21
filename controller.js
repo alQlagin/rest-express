@@ -48,8 +48,13 @@ function Controller(model, customOptions) {
         update: function (req, res, next) {
             load(model, req.params.id || req.query.id)
                 .then(function (result) {
-                    _.assign(result, req.body);
-                    return result.save();
+                    if (result) {
+                        _.assign(result, req.body);
+                        return result.save();
+                    } else {
+                        res.status(404);
+                        res.end();
+                    }
                 }, next)
                 .then(function (result) {
                     res.status(200);
@@ -59,7 +64,12 @@ function Controller(model, customOptions) {
         delete: function (req, res, next) {
             load(model, req.params.id || req.query.id)
                 .then(function (result) {
-                    return result.remove();
+                    if (result) {
+                        return result.remove();
+                    } else {
+                        res.status(404);
+                        res.end();
+                    }
                 }, next)
                 .then(function () {
                     res.status(204);
